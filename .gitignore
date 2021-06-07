@@ -1,0 +1,27 @@
+# node related
+.cache
+dist
+node_modules
+
+# django related
+db.sqlite3
+.media
+.static
+server/settings/local.py
+server/settings/.secret_key
+
+# python specific
+.venv
+.coverage
+.htmlcov
+__pycache__
+./unrest/*
+.ytcache
+unrest
+ur
+
+# misc
+.DS_Store
+
+.env
+client_secret*
