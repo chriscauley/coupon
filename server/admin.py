@@ -17,6 +17,7 @@ class SponsorAdmin(admin.ModelAdmin):
 class SponsorDomainAdmin(admin.ModelAdmin):
   list_display = ['domain', 'sponsor', 'no_promo', 'first_url']
   list_editable = ['no_promo', 'sponsor']
+  list_filter = ['no_promo']
   readonly_fields = ['first_url']
   def first_url(self, obj):
     if obj.urls:

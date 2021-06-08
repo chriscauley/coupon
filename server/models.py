@@ -2,6 +2,7 @@ from django.db import models
 
 class Channel(models.Model):
   external_id = models.CharField(max_length=64, unique=True)
+  external_username = models.CharField(max_length=128, null=True, blank=True)
   name = models.CharField(max_length=128, null=True, blank=True)
   __str__ = lambda self: self.name or self.external_id
 

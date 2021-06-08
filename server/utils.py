@@ -8,7 +8,7 @@ def _get_url(url):
     return response.text
 
 def curl(url, force=False, getter=_get_url, name=None, max_age=None):
-    name = name or url.split("=")[-1]
+    name = url.replace("/", "_")
     try:
         os.mkdir(".ytcache")
     except FileExistsError:
