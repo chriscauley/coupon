@@ -1,3 +1,5 @@
 django==3.2.4
 requests==2.25.1
 BeautifulSoup4==4.9.3
+social-auth-app-django==4.0.0
+social-auth-core==3.3.3
