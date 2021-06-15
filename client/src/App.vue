@@ -1,7 +1,13 @@
 <template>
-<div>Hello world</div>
+  <Nav />
+  <router-view class="router-view" />
+  <unrest-ui />
 </template>
 
 <script>
-export default {}
+import Nav from './components/Nav.vue'
+
+export default {
+  components: { Nav },
+}
 </script>
