@@ -16,6 +16,7 @@ class Video(models.Model):
 
 class Sponsor(models.Model):
   name = models.CharField(max_length=128)
+  image = models.ImageField(upload_to='sponsored_images', null=True, blank=True)
   __str__ = lambda self: self.name
 
 

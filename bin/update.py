@@ -2,11 +2,15 @@
 import os, django;os.environ['DJANGO_SETTINGS_MODULE'] = 'server.settings';django.setup()
 import sys
 
+from django.core import files
+
 from bs4 import BeautifulSoup
-from server.utils import curl
 from server.models import Channel, Video, Sponsor, SponsorDomain, VideoSponsor
+from server.utils import curl
+import tempfile
 import re
 import requests
+from urllib.parse import urljoin
 
 MATCH_URL = '"rssUrl":"https://www.youtube.com/feeds/videos.xml.channel_id=([^"]+)'
 
@@ -86,9 +90,47 @@ def update_channel_from_feed(channel):
         get_or_create(VideoSponsor, video=video, sponsor=sponsordomain.sponsor)
 
 
+def get_image_url(sponsordomain):
+  url = 'https://'+sponsordomain.domain
+  try:
+    text = curl(url)
+  except requests.exceptions.HTTPError as e:
+    print('Unable to curl: ', sponsordomain.domain, e)
+    return
+  url = requests.get(url).url
+  soup = BeautifulSoup(text, features='html.parser')
+  link = soup.find('link', { 'rel': "apple-touch-icon" })
+  link = link or soup.find('link', { 'rel': "icon" })
+  if link:
+    return urljoin(url, link['href'])
+
+
+def update_sponsor(sponsor):
+  if not sponsor.image:
+    for sponsordomain in sponsor.sponsordomain_set.all():
+      image_url = get_image_url(sponsordomain)
+      if image_url:
+        response = requests.get(image_url, stream=True)
+        response.raise_for_status()
+        file_name = image_url.split('/')[-1]
+        lf = tempfile.NamedTemporaryFile()
+
+        for block in response.iter_content(1024 * 8):
+          if not block:
+              break
+          lf.write(block)
+
+        sponsor.image.save(file_name, files.File(lf))
+        sponsor.save()
+        print('Sponsor image set for: ', sponsor)
+
 if __name__ == '__main__':
+  # uncomment to redownload all images
+  # Sponsor.objects.all().update(image=None)
   if len(sys.argv) > 1:
     for s in sys.argv[1:]:
       goc_channel_from_string(s)
   for channel in Channel.objects.all():
     update_channel_from_feed(channel)
+  for sponsor in Sponsor.objects.all():
+    update_sponsor(sponsor)
