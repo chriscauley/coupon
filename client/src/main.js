@@ -7,6 +7,8 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 
+auth.config.oauth_providers = ['github']
+
 createApp(App)
   .use(router)
   .use(form.plugin)
