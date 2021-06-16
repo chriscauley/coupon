@@ -1470,6 +1470,20 @@
   resolved "https://registry.yarnpkg.com/@unrest/css/-/css-0.0.6.tgz#7736b05a7ad36fc30bfe49eeebbf73344922046c"
   integrity sha512-0RMTFBTLN1IGzPpCSoAXtjM/coa4ghBrr5VjD41F9PxaXchyNcT6wONe8gqkzsl9+k7glZWCR0HsET9Sz0Jtxg==
 
+"@unrest/form@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@unrest/form/-/form-0.0.5.tgz#763872921afca3c50ad38a22a83e7ba8b4f5e21f"
+  integrity sha512-2wg4M2/ITz4/NpdtYKicNaALiQ63/4oFrrW0YRPyvASkVrVgvNz+AdGHDEniY9KKVqhs5W1EmZXte33nuP2jbA==
+  dependencies:
+    core-js "^3.6.5"
+    lodash.pick "^4.4.0"
+    vue "^3.0.0"
+
+"@unrest/tailwind@^0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@unrest/tailwind/-/tailwind-0.0.9.tgz#79cfa222b4521cf4842e52bb0381797666fffe75"
+  integrity sha512-1vLwYl3MrJVpFmiQknC3hjc/romyTHGNHUK/p7lyjicj+Smn9zlupht+Q3Dq2UKsgNddtbM9sMDilJYFKPXAFQ==
+
 "@unrest/vue-auth@^0.0.2":
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/@unrest/vue-auth/-/vue-auth-0.0.2.tgz#a9fc7929e8ad93045924504145ce5cbce9434db4"
@@ -6795,6 +6809,11 @@ lodash.merge@^4.6.1:
   version "4.6.2"
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
   integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
+
+lodash.pick@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/lodash.pick/-/lodash.pick-4.4.0.tgz#52f05610fff9ded422611441ed1fc123a03001b3"
+  integrity sha1-UvBWEP/53tQiYRRB7R/BI6AwAbM=
 
 lodash.sortby@^4.7.0:
   version "4.7.0"

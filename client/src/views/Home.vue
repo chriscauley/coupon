@@ -5,8 +5,8 @@
 <script>
 export default {
   __route: {
-    meta: { title: "Coupo" },
+    meta: { title: 'Coupo' },
     path: '/',
-  }
+  },
 }
 </script>
