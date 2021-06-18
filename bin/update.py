@@ -52,7 +52,7 @@ def update_channel_from_feed(channel):
           VideoSponsor,
           video=video,
           sponsor=sponsordomain.sponsor,
-          defaults={'url': url, 'paragraph': paragraph}
+          defaults={'url': url, 'paragraph': paragraph, 'channel': channel}
         )
 
 def get_url_and_domain(url, follow):

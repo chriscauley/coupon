@@ -21,6 +21,7 @@
     "core-js": "^3.6.5",
     "prettier": "^2.3.1",
     "vue": "^3.0.5",
+    "vue3-markdown-it": "^1.0.8",
     "vue-router": "^4"
   },
   "devDependencies": {
