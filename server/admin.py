@@ -11,7 +11,11 @@ class VideoAdmin(admin.ModelAdmin):
 
 @admin.register(Sponsor)
 class SponsorAdmin(admin.ModelAdmin):
-  pass
+  list_display = ['name', 'has_image']
+  readonly_fields = ['has_image']
+  def has_image(self, obj):
+    return bool(obj.image)
+  has_image.boolean = True
 
 @admin.register(SponsorDomain)
 class SponsorDomainAdmin(admin.ModelAdmin):
