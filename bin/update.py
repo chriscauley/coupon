@@ -3,6 +3,7 @@ import os, django;os.environ['DJANGO_SETTINGS_MODULE'] = 'server.settings';djang
 import sys
 
 from django.core import files
+from django.utils.dateparse import parse_datetime
 
 from bs4 import BeautifulSoup
 from server.models import Channel, Video, Sponsor, SponsorDomain, VideoSponsor
@@ -22,11 +23,12 @@ def update_channel_from_feed(channel):
     channel.save()
   for entry in soup.findAll('entry'):
     video_url = entry.find('link')['href']
+    created = parse_datetime(entry.find('published').text)
     video = get_or_create(
       Video,
       external_id=video_url.split('?v=')[1],
       url=video_url,
-      defaults={'title': entry.find('title').text, 'channel': channel},
+      defaults={'title': entry.find('title').text, 'channel': channel, 'created': created},
     )
     description = entry.find('media:description')
     paragraphs = description.text.split('\n')

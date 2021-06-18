@@ -11,6 +11,7 @@ class Channel(models.Model):
   external_id = models.CharField(max_length=64, unique=True)
   external_username = models.CharField(max_length=128, null=True, blank=True)
   name = models.CharField(max_length=128, null=True, blank=True)
+  updated = models.DateTimeField(auto_now=True)
   __str__ = lambda self: self.name or self.external_id
 
   @property
@@ -59,6 +60,7 @@ class Video(models.Model):
   title = models.CharField(max_length=264, null=True, blank=True)
   url = models.TextField()
   channel = models.ForeignKey(Channel, models.CASCADE)
+  created = models.DateTimeField()
   __str__ = lambda self: self.title or self.external_id
 
 
