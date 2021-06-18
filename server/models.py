@@ -11,6 +11,7 @@ class Video(models.Model):
   external_id = models.CharField(max_length=64, unique=True)
   title = models.CharField(max_length=264, null=True, blank=True)
   url = models.TextField()
+  channel = models.ForeignKey(Channel, models.CASCADE)
   __str__ = lambda self: self.title or self.external_id
 
 
@@ -30,5 +31,7 @@ class SponsorDomain(models.Model):
 
 class VideoSponsor(models.Model):
   video = models.ForeignKey(Video, models.CASCADE)
+  channel = models.ForeignKey(Channel, models.CASCADE)
   sponsor = models.ForeignKey(Sponsor, models.CASCADE)
   url = models.CharField(max_length=256)
+  paragraph = models.TextField()
