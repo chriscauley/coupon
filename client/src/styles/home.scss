@@ -26,6 +26,14 @@
   }
 }
 
-.sponsor-dropdown .dropdown-items {
-  width: 21rem;
+.sponsor-dropdown {
+  &__trigger {
+    @apply cursor-pointer;
+  }
+  .popdown {
+    @apply shadow-lg;
+  }
+  .dropdown-items {
+    width: 21rem;
+  }
 }

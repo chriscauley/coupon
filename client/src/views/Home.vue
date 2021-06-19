@@ -6,8 +6,10 @@
         <div class="sponsor-list">
           <div v-for="promo in channel.latest_promos" :key="promo.sponsor.id">
             <unrest-dropdown class="sponsor-dropdown">
-              <img :src="promo.sponsor.image_url" v-if="promo.sponsor" />
-              <i v-else class="fa fa-question" />
+              <div class="sponsor-dropdown__trigger">
+                <img :src="promo.sponsor.image_url" v-if="promo.sponsor" />
+                <i v-else class="fa fa-question" />
+              </div>
               <template #content>
                 <div class="dropdown-items" placement="left">
                   <a :href="promo.url" class="dropdown-item">
