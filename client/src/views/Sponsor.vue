@@ -10,15 +10,18 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="{ channel, video, url, id } in sponsor.sponsor_channels" :key="id">
+        <tr v-for="{ channel, video, short_url, url, id } in sponsor.sponsor_channels" :key="id">
           <td>
             <a :href="url" class="flex items-center">
               <img :src="sponsor.image_url" class="w-8 mr-2" />
-              <div class="truncate">{{ url }}</div>
+              <div class="truncate">{{ short_url }}</div>
             </a>
           </td>
           <td>
-            {{ channel.name }}
+            <a :href="channel.url" class="flex items-center">
+              <img :src="channel.image_url" class="w-8 mr-2" />
+              {{ channel.name }}
+            </a>
           </td>
           <td>
             <a :href="video.url" class="flex items-center">

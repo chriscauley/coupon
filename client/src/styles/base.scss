@@ -1,1 +1,14 @@
 @import "./home.scss";
+
+body {
+  @apply -bg-bg-alt;
+  #app {
+    @apply h-full;
+    > .container {
+      @apply -bg-bg h-full;
+      .router-view {
+        @apply mx-4;
+      }
+    }
+  }
+}

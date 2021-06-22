@@ -1,7 +1,9 @@
 <template>
-  <Nav />
-  <router-view class="router-view" />
-  <unrest-ui />
+  <div class="container mx-auto">
+    <Nav />
+    <router-view class="router-view" />
+    <unrest-ui />
+  </div>
 </template>
 
 <script>
