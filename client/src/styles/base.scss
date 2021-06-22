@@ -6,7 +6,7 @@ body {
     @apply min-h-full;
     flex-direction: unset;
     > .container {
-      @apply -bg-bg min-h-full;
+      @apply -bg-bg min-h-full shadow-lg;
       .router-view {
         @apply mx-4;
       }

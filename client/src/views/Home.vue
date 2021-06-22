@@ -4,6 +4,7 @@
       <router-link class="card-body" :to="sponsor.url">
         <img :src="sponsor.image_url" v-if="sponsor.image_url" class="w-8" />
         {{ sponsor.name }}
+        {{ sponsor.sponsor_count }}
       </router-link>
     </div>
   </div>

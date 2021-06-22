@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from django.core.cache import cache
 from django.core import files
 from django.db import models
 import re
@@ -89,6 +90,8 @@ class Sponsor(models.Model):
     return len(set(self.videosponsor_set.all().values_list('channel_id', flat=True)))
   @property
   def sponsor_channels(self):
+    return cache.get_or_set(f'Sponsor.sponsor_channels', self._sponsor_channels)
+  def _sponsor_channels(self):
     used = {}
     out = []
     for vs in self.videosponsor_set.all():

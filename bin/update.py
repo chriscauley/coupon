@@ -3,6 +3,7 @@ import os, django;os.environ['DJANGO_SETTINGS_MODULE'] = 'server.settings';djang
 import sys
 
 from django.core import files
+from django.core.cache import cache
 from django.utils.dateparse import parse_datetime
 
 from bs4 import BeautifulSoup
@@ -77,3 +78,7 @@ if __name__ == '__main__':
       Channel.from_string(s)
   for channel in Channel.objects.all():
     update_channel_from_feed(channel)
+  cache.clear()
+  for sponsor in Sponsor.objects.all():
+    # refill cache
+    sponsor.sponsor_channels
