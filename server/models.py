@@ -85,9 +85,16 @@ class Sponsor(models.Model):
   image = models.ImageField(upload_to='sponsored_images', null=True, blank=True)
   __str__ = lambda self: self.name
   @property
+  def sponsor_count(self):
+    return len(set(self.videosponsor_set.all().values_list('channel_id', flat=True)))
+  @property
   def sponsor_channels(self):
+    used = {}
     out = []
     for vs in self.videosponsor_set.all():
+      if vs.channel_id in used:
+        continue
+      used[vs.channel_id] = True
       channel = vs.channel
       video = vs.video
       out.append({
@@ -130,3 +137,6 @@ class VideoSponsor(models.Model):
   sponsor = models.ForeignKey(Sponsor, models.CASCADE)
   url = models.CharField(max_length=256)
   paragraph = models.TextField()
+  created = models.DateTimeField(auto_now_add=True)
+  class Meta:
+    ordering = ('-created',)

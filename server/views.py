@@ -14,7 +14,7 @@ def channel_list(request):
 
 def sponsor_list(request):
   query = Sponsor.objects.all()
-  process = lambda o: serialize(o, ['name', 'image_url', 'id'])
+  process = lambda o: serialize(o, ['name', 'image_url', 'id', 'sponsor_count'])
   return JsonResponse(paginate(query, process=process, query_dict=request.GET, per_page=60))
 
 def sponsor_detail(request, sponsor_id):
