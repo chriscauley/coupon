@@ -1,5 +1,5 @@
 from django.contrib import admin
-from server.models import Channel, Video, Sponsor, SponsorDomain
+from server.models import Channel, Video, VideoSponsor, Sponsor, SponsorDomain
 
 @admin.register(Channel)
 class ChannelAdmin(admin.ModelAdmin):
@@ -7,6 +7,10 @@ class ChannelAdmin(admin.ModelAdmin):
 
 @admin.register(Video)
 class VideoAdmin(admin.ModelAdmin):
+  pass
+
+@admin.register(VideoSponsor)
+class VideoSponsorAdmin(admin.ModelAdmin):
   pass
 
 @admin.register(Sponsor)

@@ -1,11 +1,9 @@
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 
 from server.models import Channel, Sponsor, Video, VideoSponsor
+from server.utils import serialize
 from unrest.pagination import paginate
-
-
-def serialize(obj, keys):
-  return { key: getattr(obj,key) for key in keys }
 
 
 def channel_list(request):
@@ -19,3 +17,6 @@ def sponsor_list(request):
   process = lambda o: serialize(o, ['name', 'image_url', 'id'])
   return JsonResponse(paginate(query, process=process, query_dict=request.GET, per_page=60))
 
+def sponsor_detail(request, sponsor_id):
+  sponsor = get_object_or_404(Sponsor, id=sponsor_id)
+  return JsonResponse(serialize(sponsor, ['name', 'image_url', 'id', 'sponsor_channels']))

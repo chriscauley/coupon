@@ -3,7 +3,7 @@ from django.core import files
 from django.db import models
 import re
 import requests
-from server.utils import get_image_url, curl, get_or_create
+from server.utils import get_image_url, curl, get_or_create, serialize
 import tempfile
 from urllib.parse import urljoin
 
@@ -68,6 +68,19 @@ class Sponsor(models.Model):
   name = models.CharField(max_length=128)
   image = models.ImageField(upload_to='sponsored_images', null=True, blank=True)
   __str__ = lambda self: self.name
+  @property
+  def sponsor_channels(self):
+    out = []
+    for vs in self.videosponsor_set.all():
+      channel = vs.channel
+      video = vs.video
+      out.append({
+        'id': vs.id,
+        'url': vs.url,
+        'channel': serialize(channel, ['id', 'name']),
+        'video': serialize(video, ['title', 'url']),
+      })
+    return out
   @property
   def image_url(self):
     return self.image.url if self.image else None

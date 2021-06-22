@@ -1,18 +1,3 @@
-.channel-list {
-  @apply flex flex-wrap;
-  gap: 1rem;
-  .channel-card {
-    flex-basis: 320px;
-  }
-  .sponsor-list {
-    @apply flex flex-wrap;
-    gap: 1rem;
-    img {
-      width: 2rem;
-    }
-  }
-}
-
 .dropdown-item.markdown {
   max-width: 100%;
   a {
@@ -36,4 +21,27 @@
   .dropdown-items {
     width: 21rem;
   }
+}
+
+.sponsor-cards, .channel-cards {
+  @apply flex flex-wrap;
+  gap: 1rem;
+  .card {
+    flex-basis: 320px;
+  }
+  .channel-card__sponsors {
+    @apply flex flex-wrap mt-2;
+    gap: 1rem;
+  }
+}
+
+.sponsor-cards {
+  .card-body {
+    @apply flex items-center;
+    gap: 1rem;
+  }
+}
+
+.text-youtube {
+  color: #ff0000;
 }
