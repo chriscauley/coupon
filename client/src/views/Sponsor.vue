@@ -7,6 +7,7 @@
           <th>Promo URL</th>
           <th>Channel</th>
           <th>Video</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -14,7 +15,7 @@
           <td>
             <a :href="url" class="flex items-center">
               <img :src="sponsor.image_url" class="w-8 mr-2" />
-              <div class="truncate">{{ short_url }}</div>
+              <div>{{ short_url }}</div>
             </a>
           </td>
           <td>
@@ -29,6 +30,7 @@
               <div class="truncate">{{ video.title }}</div>
             </a>
           </td>
+          <td>{{ video.age }} ago</td>
         </tr>
       </tbody>
     </table>

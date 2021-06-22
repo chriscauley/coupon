@@ -94,7 +94,7 @@ class Sponsor(models.Model):
         'id': vs.id,
         'url': vs.url,
         'channel': serialize(channel, ['id', 'name', 'image_url', 'url']),
-        'video': serialize(video, ['title', 'url']),
+        'video': serialize(video, ['title', 'url', 'created']),
       })
     return out
   @property

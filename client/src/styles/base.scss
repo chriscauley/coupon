@@ -3,12 +3,22 @@
 body {
   @apply -bg-bg-alt;
   #app {
-    @apply h-full;
+    @apply min-h-full;
     > .container {
-      @apply -bg-bg h-full;
+      @apply -bg-bg min-h-full;
       .router-view {
         @apply mx-4;
       }
     }
+  }
+}
+
+.table {
+  @apply w-full;
+  th {
+    @apply text-left;
+  }
+  .truncate {
+    max-width: 200px;
   }
 }
