@@ -27,7 +27,7 @@
           <td>
             <a :href="video.url" class="flex items-center">
               <i class="fa fa-youtube-play text-youtube mr-2 fa-2x" />
-              <div class="truncate">{{ video.title }}</div>
+              {{ video.title }}
             </a>
           </td>
           <td>{{ video.age }} ago</td>
