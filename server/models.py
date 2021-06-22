@@ -3,7 +3,7 @@ from django.core import files
 from django.db import models
 import re
 import requests
-from server.utils import get_image_url, curl, get_or_create, serialize
+from server.utils import get_image_url, curl, get_or_create, serialize, curl_image_to_field
 import tempfile
 from urllib.parse import urljoin
 
@@ -12,6 +12,7 @@ class Channel(models.Model):
   external_username = models.CharField(max_length=128, null=True, blank=True)
   name = models.CharField(max_length=128, null=True, blank=True)
   updated = models.DateTimeField(auto_now=True)
+  image = models.ImageField(upload_to='channel_images', null=True, blank=True)
   __str__ = lambda self: self.name or self.external_id
 
   @property
@@ -53,6 +54,21 @@ class Channel(models.Model):
       channel_id = s.split('https://www.youtube.com/channel/')[-1]
 
     return get_or_create(Channel, external_id=channel_id, defaults=defaults)
+  @property
+  def url(self):
+    return f'https://www.youtube.com/channel/{self.external_id}'
+  @property
+  def image_url(self):
+    return self.image.url if self.image else None
+  def save(self, *args, **kwargs):
+    if not self.image:
+      self.update_image()
+    super().save(*args,**kwargs)
+  def update_image(self):
+    text = curl(self.url)
+    image_url = text.split('"avatar":{"thumbnails":[{"url":"')[1].split('"')[0]
+    curl_image_to_field(image_url, self.image)
+    print('Channel image set for: ', self.name)
 
 
 class Video(models.Model):
@@ -77,7 +93,7 @@ class Sponsor(models.Model):
       out.append({
         'id': vs.id,
         'url': vs.url,
-        'channel': serialize(channel, ['id', 'name']),
+        'channel': serialize(channel, ['id', 'name', 'image_url', 'url']),
         'video': serialize(video, ['title', 'url']),
       })
     return out
@@ -88,22 +104,13 @@ class Sponsor(models.Model):
     super().save(*args,**kwargs)
     if not self.image:
       self.update_image()
+    super().save(*args,**kwargs)
   def update_image(self):
     for sponsordomain in self.sponsordomain_set.all():
       image_url = get_image_url(sponsordomain)
       if not image_url:
         continue
-      response = requests.get(image_url, stream=True)
-      response.raise_for_status()
-      file_name = image_url.split('/')[-1]
-      lf = tempfile.NamedTemporaryFile()
-
-      for block in response.iter_content(1024 * 8):
-        if not block:
-            break
-        lf.write(block)
-
-      self.image.save(file_name, files.File(lf))
+      curl_image_to_field(image_url, self.image)
       self.save()
       print('Sponsor image set for: ', self.name)
       return

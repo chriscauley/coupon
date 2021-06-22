@@ -1,6 +1,8 @@
 from bs4 import BeautifulSoup
+from django.core import files
 import os
 import requests
+import tempfile
 import time
 from urllib.parse import urljoin
 
@@ -33,6 +35,20 @@ def curl(url, force=False, getter=_get_url, name=None, max_age=None):
         return text
     with open(fname, "r") as _file:
         return _file.read()
+
+
+def curl_image_to_field(image_url, model_field):
+  response = requests.get(image_url, stream=True)
+  response.raise_for_status()
+  file_name = image_url.split('/')[-1]
+  lf = tempfile.NamedTemporaryFile()
+
+  for block in response.iter_content(1024 * 8):
+    if not block:
+      break
+    lf.write(block)
+  model_field.save(file_name, files.File(lf))
+
 
 def get_or_create(model, defaults={}, **kwargs):
   # like django's get_or_create, but updates defaults if changed
