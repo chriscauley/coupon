@@ -4,6 +4,7 @@ body {
   @apply -bg-bg-alt;
   #app {
     @apply min-h-full;
+    flex-direction: unset;
     > .container {
       @apply -bg-bg min-h-full;
       .router-view {

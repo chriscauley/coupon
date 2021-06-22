@@ -27,7 +27,14 @@
   @apply flex flex-wrap;
   gap: 1rem;
   .card {
-    flex-basis: 320px;
+    flex-basis: calc(25% - 1rem);
+    @media (max-width: theme('screens.md')) {
+      flex-basis: calc(33.3333% - 1rem);
+    }
+    @media (max-width: theme('screens.sm')) {
+      margin: auto;
+      flex-basis: 100%;
+    }
   }
   .channel-card__sponsors {
     @apply flex flex-wrap mt-2;
