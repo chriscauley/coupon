@@ -8,7 +8,7 @@ from unrest.pagination import paginate
 
 def channel_list(request):
   query = Channel.objects.all().prefetch_related('video_set')
-  process = lambda o: serialize(o, ['name', 'id', 'latest_promos'])
+  process = lambda o: serialize(o, ['name', 'id', 'latest_promos', 'image_url'])
   return JsonResponse(paginate(query, process=process, query_dict=request.GET, per_page=30))
 
 

@@ -2,7 +2,14 @@
   <div class="channel-cards">
     <div v-for="channel in channels" :key="channel.id" class="channel-card card">
       <div class="card-body">
-        {{ channel.name }}
+        <div class="card-title">
+          <h4 class="w-full border-b flex pb-1 items-center">
+            <div>
+              <img :src="channel.image_url" class="w-6 mr-2 rounded-full" />
+            </div>
+            {{ channel.name }}
+          </h4>
+        </div>
         <div class="channel-card__sponsors">
           <div v-for="promo in channel.latest_promos" :key="promo.sponsor.id">
             <unrest-dropdown class="sponsor-dropdown">
@@ -16,11 +23,7 @@
                     <img :src="promo.sponsor.image_url" v-if="promo.sponsor" class="w-8 mr-2" />
                     <div class="flex-grow">{{ promo.sponsor.name }}</div>
                   </a>
-                  <markdown
-                    :source="promo.paragraph"
-                    :linkify="true"
-                    class="p-4 pb-0 markdown"
-                  />
+                  <markdown :source="promo.paragraph" :linkify="true" class="p-4 pb-0 markdown" />
                 </div>
               </template>
             </unrest-dropdown>
