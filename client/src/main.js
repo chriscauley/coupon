@@ -4,6 +4,7 @@ import UrVue from '@unrest/vue'
 import form from '@unrest/form'
 import '@unrest/tailwind/dist.css'
 
+import AddChannel from '@/components/AddChannel'
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
@@ -14,6 +15,7 @@ auth.config.oauth_providers = ['github']
 
 createApp(App)
   .component('Markdown', Markdown)
+  .component('AddChannel', AddChannel)
   .use(router)
   .use(form.plugin)
   .use(auth.plugin)

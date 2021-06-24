@@ -23,3 +23,23 @@ body {
     max-width: 200px;
   }
 }
+
+.add-channel-button {
+  @apply bg-blue-500 fixed flex items-center bottom-0 m-4 px-4 py-2 right-0 text-white text-lg;
+  border-radius: 1rem;
+  &:focus, &:hover {
+    @apply bg-blue-600;
+    outline: none;
+  }
+  .text {
+    @apply ml-2;
+  }
+}
+
+.add-channel-list {
+  max-width: 420px;
+  .avatar {
+    @apply mr-4 rounded-full;
+    width: 3rem;
+  }
+}
