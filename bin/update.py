@@ -8,7 +8,7 @@ from django.utils.dateparse import parse_datetime
 
 from bs4 import BeautifulSoup
 from server.models import Channel, Video, Sponsor, SponsorDomain, VideoSponsor
-from server.utils import curl, get_or_create, get_image_url
+from server.utils import curl, get_or_create, get_image_url, get_channel_id_from_url
 import tempfile
 import re
 import requests
@@ -75,7 +75,7 @@ if __name__ == '__main__':
   # Sponsor.objects.all().update(image=None)
   if len(sys.argv) > 1:
     for s in sys.argv[1:]:
-      Channel.from_string(s)
+      get_or_create(Channel, external_id=get_channel_id_from_url(s))
   for channel in Channel.objects.all():
     update_channel_from_feed(channel)
   cache.clear()

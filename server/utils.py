@@ -1,10 +1,12 @@
 from bs4 import BeautifulSoup
+from django.conf import settings
 from django.core import files
+import json
 import os
 import requests
 import tempfile
 import time
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlencode
 
 def serialize(obj, keys):
   return { key: getattr(obj,key) for key in keys }
@@ -16,7 +18,7 @@ def _get_url(url):
     return response.text
 
 def curl(url, force=False, getter=_get_url, name=None, max_age=None):
-    name = url.replace("/", "_")
+    name = name or url.replace("/", "_")
     try:
         os.mkdir(".ytcache")
     except FileExistsError:
@@ -81,3 +83,40 @@ def get_image_url(sponsordomain):
   link = link or soup.find('link', { 'rel': "icon" })
   if link:
     return urljoin(url, link['href'])
+
+def get_channel_id_from_url(url):
+  MATCH_URL = '"rssUrl":"https://www.youtube.com/feeds/videos.xml.channel_id=([^"]+)'
+  defaults = {}
+  s = s.replace('https://www.youtube.com/user', 'https://www.youtube.com')
+  s = re.sub('/(featured|videos|playlists|community|store|channels|about)', '', s)
+  s = s.replace('youtube.com/c/', 'youtube.com/')
+  if 'youtube.com/watch?v=' in s:
+    text = curl(s, max_age=3600)
+    soup = BeautifulSoup(text, features='html.parser')
+    return soup.find('meta', {'itemprop': 'channelId'})['content']
+  elif re.match('https://www.youtube.com/([^/]*)$', s):
+    channel_name = s.split('/')[-1]
+    if cls.objects.filter(external_username=channel_name):
+      return cls.objects.filter(external_username=channel_name)[0]
+    text = curl(s, max_age=3600)
+    channel_ids = re.findall(MATCH_URL, text)
+    if len(set(channel_ids)) != 1:
+      raise NotImplementedError("Ambiguous number of channel ids for "+s)
+    return channel_ids[0]
+  elif s.startswith('https://www.youtube.com/channel/'):
+    return s.split('https://www.youtube.com/channel/')[-1]
+
+
+def search_youtube(q):
+  params = {
+    'key': settings.YOUTUBE_API_KEY,
+    'part': 'id,snippet',
+    'type': 'channel',
+    'q': q,
+  }
+  root_url = 'https://youtube.googleapis.com/youtube/v3/search?'
+  text = curl(root_url + urlencode(params), name="youtube?q="+q)
+  items = json.loads(text)['items']
+  for item in items:
+    item.update(item.pop('snippet', {}))
+  return items

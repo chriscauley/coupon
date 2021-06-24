@@ -4,7 +4,7 @@ from django.core import files
 from django.db import models
 import re
 import requests
-from server.utils import get_image_url, curl, get_or_create, serialize, curl_image_to_field
+from server.utils import get_image_url, curl, serialize, curl_image_to_field
 import tempfile
 from urllib.parse import urljoin
 
@@ -30,31 +30,6 @@ class Channel(models.Model):
         }
     return list(out.values())
 
-  @classmethod
-  def from_string(cls, s):
-    MATCH_URL = '"rssUrl":"https://www.youtube.com/feeds/videos.xml.channel_id=([^"]+)'
-    defaults = {}
-    s = s.replace('https://www.youtube.com/user', 'https://www.youtube.com')
-    s = re.sub('/(featured|videos|playlists|community|store|channels|about)', '', s)
-    s = s.replace('youtube.com/c/', 'youtube.com/')
-    if 'youtube.com/watch?v=' in s:
-      text = curl(s, max_age=3600)
-      soup = BeautifulSoup(text, features='html.parser')
-      channel_id = soup.find('meta', {'itemprop': 'channelId'})['content']
-    elif re.match('https://www.youtube.com/([^/]*)$', s):
-      channel_name = s.split('/')[-1]
-      if cls.objects.filter(external_username=channel_name):
-        return cls.objects.filter(external_username=channel_name)[0]
-      text = curl(s, max_age=3600)
-      channel_ids = re.findall(MATCH_URL, text)
-      if len(set(channel_ids)) != 1:
-        raise NotImplementedError("Ambiguous number of channel ids for "+s)
-      channel_id = channel_ids[0]
-      defaults = {'external_username': channel_name}
-    elif s.startswith('https://www.youtube.com/channel/'):
-      channel_id = s.split('https://www.youtube.com/channel/')[-1]
-
-    return get_or_create(Channel, external_id=channel_id, defaults=defaults)
   @property
   def url(self):
     return f'https://www.youtube.com/channel/{self.external_id}'
