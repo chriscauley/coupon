@@ -1,12 +1,11 @@
 from bs4 import BeautifulSoup
 from django.core.cache import cache
-from django.core import files
 from django.db import models
+from django.utils.dateparse import parse_datetime
 import re
 import requests
-from server.utils import get_image_url, curl, serialize, curl_image_to_field
-import tempfile
-from urllib.parse import urljoin
+from server.utils import get_image_url, curl, serialize, curl_image_to_field, get_or_create, get_channel_id_from_url, get_url_and_domain
+
 
 class Channel(models.Model):
   external_id = models.CharField(max_length=64, unique=True)
@@ -45,6 +44,49 @@ class Channel(models.Model):
     image_url = text.split('"avatar":{"thumbnails":[{"url":"')[1].split('"')[0]
     curl_image_to_field(image_url, self.image)
     print('Channel image set for: ', self.name)
+
+  def update_from_feed(self):
+    url = f'https://www.youtube.com/feeds/videos.xml?channel_id={self.external_id}'
+    text = curl(url, max_age=3600) # reupdate every hour
+    soup = BeautifulSoup(text, features='html.parser')
+    if not self.name:
+      self.name = soup.find('title').text
+      self.save()
+    for entry in soup.findAll('entry'):
+      video_url = entry.find('link')['href']
+      created = parse_datetime(entry.find('published').text)
+      video = get_or_create(
+        Video,
+        external_id=video_url.split('?v=')[1],
+        url=video_url,
+        defaults={'title': entry.find('title').text, 'channel': self, 'created': created},
+      )
+      description = entry.find('media:description')
+      paragraphs = description.text.split('\n')
+      for i, url in enumerate(re.findall('https?://.*', description.text)):
+        url, domain = get_url_and_domain(url, follow=i==0)
+        if not url:
+          continue
+        if i == 0:
+          sponsordomain = get_or_create(SponsorDomain, domain=domain)
+        else:
+          sponsordomain = SponsorDomain.objects.filter(domain=domain).first()
+        if not sponsordomain or sponsordomain.no_promo:
+          continue
+        if url not in sponsordomain.urls:
+          url = url.replace(u'\u200b', '') # "zero width space"
+          sponsordomain.urls.append(url)
+          sponsordomain.save()
+        if not sponsordomain.sponsor:
+          print(f'Sponsor domain missing sponsor {sponsordomain.domain}', video_url)
+        else:
+          paragraph = next(p for p in paragraphs if url in p)
+          get_or_create(
+            VideoSponsor,
+            video=video,
+            sponsor=sponsordomain.sponsor,
+            defaults={'url': url, 'paragraph': paragraph, 'channel': self}
+          )
 
 
 class Video(models.Model):

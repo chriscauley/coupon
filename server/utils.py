@@ -1,3 +1,7 @@
+from django.core import files
+from django.core.cache import cache
+from django.utils.dateparse import parse_datetime
+
 from bs4 import BeautifulSoup
 from django.conf import settings
 from django.core import files
@@ -119,4 +123,15 @@ def search_youtube(q):
   items = json.loads(text)['items']
   for item in items:
     item.update(item.pop('snippet', {}))
-  return items
+  return items#!/usr/bin/env python3
+
+def get_url_and_domain(url, follow):
+  url = url.split(' ')[0].strip('.,')
+  domain = url.split('//')[1].split('/')[0].lower()
+  if domain in ['thld.co', 'ow.ly', 'bit.ly', 'cen.yt', 'tinyurl.com']:
+    if not follow:
+      return [None, None]
+    # get real domain from url shortener service
+    url2 = requests.get(url).url
+    domain = url2.split('//')[1].split('/')[0].lower()
+  return url, domain
