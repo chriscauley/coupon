@@ -2,10 +2,17 @@ from bs4 import BeautifulSoup
 from django.core.cache import cache
 from django.db import models
 from django.utils.dateparse import parse_datetime
+import functools
 import re
 import requests
 from server.utils import get_image_url, curl, serialize, curl_image_to_field, get_or_create, get_channel_id_from_url, get_url_and_domain
 
+def redis_property(func):
+  @functools.wraps(func)
+  def wrapped(self):
+    key = f'{self.__class__.__name__}.{func.__name__}.{self.id}'
+    return cache.get_or_set(key, lambda: func(self))
+  return property(wrapped)
 
 class Channel(models.Model):
   external_id = models.CharField(max_length=64, unique=True)
@@ -15,7 +22,7 @@ class Channel(models.Model):
   image = models.ImageField(upload_to='channel_images', null=True, blank=True)
   __str__ = lambda self: self.name or self.external_id
 
-  @property
+  @redis_property
   def latest_promos(self):
     out = {}
     for video in self.video_set.all():
@@ -23,9 +30,8 @@ class Channel(models.Model):
         if videosponsor.sponsor_id in out:
           continue
         out[videosponsor.sponsor_id] = {
-          'sponsor_id': videosponsor.sponsor_id,
-          'url': videosponsor.url,
-          'paragraph': videosponsor.paragraph
+          **serialize(videosponsor, ['sponsor_id', 'url', 'paragraph',]),
+          'video': serialize(video, ['title', 'url', 'created']),
         }
     return list(out.values())
 
@@ -36,9 +42,10 @@ class Channel(models.Model):
   def image_url(self):
     return self.image.url if self.image else None
   def save(self, *args, **kwargs):
+    super().save(*args, **kwargs)
     if not self.image:
       self.update_image()
-    super().save(*args,**kwargs)
+      self.save()
   def update_image(self):
     text = curl(self.url)
     image_url = text.split('"avatar":{"thumbnails":[{"url":"')[1].split('"')[0]
@@ -105,10 +112,8 @@ class Sponsor(models.Model):
   @property
   def sponsor_count(self):
     return len(set(self.videosponsor_set.all().values_list('channel_id', flat=True)))
-  @property
+  @redis_property
   def sponsor_channels(self):
-    return cache.get_or_set(f'Sponsor.sponsor_channels', self._sponsor_channels)
-  def _sponsor_channels(self):
     used = {}
     out = []
     for vs in self.videosponsor_set.all():

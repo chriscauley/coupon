@@ -17,5 +17,5 @@ if __name__ == '__main__':
     channel.update_from_feed()
   cache.clear()
   for sponsor in Sponsor.objects.all():
-    # refill cache
-    sponsor.sponsor_channels
+    sponsor.sponsor_channels # refill cache
+    sponsor.save() # get missing images

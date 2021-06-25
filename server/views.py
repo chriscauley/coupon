@@ -25,6 +25,11 @@ def sponsor_detail(request, sponsor_id):
   return JsonResponse(serialize(sponsor, ['name', 'image_url', 'id', 'sponsor_channels']))
 
 
+def channel_detail(request, channel_id):
+  channel = get_object_or_404(Channel, id=channel_id)
+  return JsonResponse(serialize(channel, ['name', 'id', 'latest_promos', 'image_url']))
+
+
 def search_channels(request):
   return JsonResponse({'results': search_youtube(request.GET.get('q'))})
 
@@ -35,4 +40,5 @@ def add_channel(request):
   index = data.get('index')
   youtube_data = search_youtube(q)[index]
   channel, new = Channel.objects.get_or_create(external_id=youtube_data['channelId'])
+  channel.update_from_feed()
   return JsonResponse(dict(name=youtube_data['title'], id=channel.id, new=new))
