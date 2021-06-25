@@ -2,14 +2,14 @@
   <div class="channel-cards">
     <div v-for="channel in channels" :key="channel.id" class="channel-card card">
       <div class="card-body">
-        <div class="card-title">
+        <router-link class="card-title" :to="channel.internal_url">
           <h4 class="w-full border-b flex pb-1 items-center">
             <div>
               <img :src="channel.image_url" class="w-6 mr-2 rounded-full" />
             </div>
             {{ channel.name }}
           </h4>
-        </div>
+        </router-link>
         <div class="channel-card__sponsors">
           <div v-for="promo in channel.latest_promos" :key="promo.sponsor.id">
             <unrest-dropdown class="sponsor-dropdown">

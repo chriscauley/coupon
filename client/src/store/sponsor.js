@@ -4,7 +4,7 @@ import { formatDistanceToNowStrict } from 'date-fns'
 
 const fromServer = (sponsor) => {
   const { id, name } = sponsor
-  sponsor.url = `/sponsor/${id}/${kebabCase(name)}/`
+  sponsor.internal_url = `/sponsor/${id}/${kebabCase(name)}/`
   sponsor.sponsor_channels?.forEach((sc) => {
     sc.short_url = sc.url
       .replace(/https?:\/\//, '')

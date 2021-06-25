@@ -42,4 +42,12 @@ body {
     @apply mr-4 rounded-full;
     width: 3rem;
   }
+  &.-loading {
+    @apply relative;
+    cursor: wait;
+    &:before {
+      @apply absolute block inset-0;
+      content: '';
+    }
+  }
 }

@@ -1,10 +1,11 @@
 <template>
   <div class="sponsor-cards">
     <div v-for="sponsor in sponsors" :key="sponsor.id" class="sponsor-card card">
-      <router-link class="card-body" :to="sponsor.url">
+      <router-link class="card-body" :to="sponsor.internal_url">
         <img :src="sponsor.image_url" v-if="sponsor.image_url" class="w-8" />
         {{ sponsor.name }}
-        {{ sponsor.sponsor_count }}
+        <div class="flex-grow" />
+        <div class="pill pill-primary">{{ sponsor.sponsor_count }}</div>
       </router-link>
     </div>
   </div>
