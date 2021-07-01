@@ -14,7 +14,7 @@
     "@unrest/form": "^0.0.7",
     "@unrest/tailwind": "^0.0.11",
     "@unrest/vue": "^0.1.5",
-    "@unrest/vue-auth": "^0.0.3",
+    "@unrest/vue-auth": "^0.0.4",
     "@unrest/vue-reactive-storage": "^0.0.3",
     "@vue/cli": "^4.5.13",
     "classnames": "^2.3.1",
