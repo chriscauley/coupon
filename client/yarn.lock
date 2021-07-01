@@ -1529,10 +1529,10 @@
     local-storage-json "^1.1.0"
     vue "^3.0.0"
 
-"@unrest/vue-reactive-storage@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@unrest/vue-reactive-storage/-/vue-reactive-storage-0.0.2.tgz#af6e89586c665a8337ed0af35191094bcd14db70"
-  integrity sha512-Dh/ryDHPuS0VvLWci6yiHsE7NrN+GwjO+DtxDeKM4Q/YdV84G/fVgLbK8Atwx3VDVl0TgaBL+Rt1VarLIvsoAQ==
+"@unrest/vue-reactive-storage@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@unrest/vue-reactive-storage/-/vue-reactive-storage-0.0.3.tgz#1094626ebef60364ebe329f94b9e5592fdc0397f"
+  integrity sha512-22EZqHxauAXkL046/CshtPNWGT08M9Z2Y5HrhmB9/0eQooZ2rSy+gp+IPcbIY025LYFjtmb9ZdA74gcbgDqMgg==
   dependencies:
     "@unrest/eslint-config" "^0.0.4"
     axios "^0.21.1"
@@ -1545,10 +1545,10 @@
   resolved "https://registry.yarnpkg.com/@unrest/vue/-/vue-0.1.3.tgz#91e0154ada627757148d7c8f9814570d7175e1b1"
   integrity sha512-UA9K/guRLSNjRfYPWdE912usqN7qsXTxNn69FsDy6ZkxF8LIKhNIyN/JomVU2ErlyJcHF4NUtg2a45pdoZyowg==
 
-"@unrest/vue@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@unrest/vue/-/vue-0.1.4.tgz#3ed606b7b49ab0e2fe6b7a99cde5a4a3b4152d77"
-  integrity sha512-1RGAbpBwVqWr2nSRVbq7KYw7S1pE9wtHvCT1eJGxuNMPXkEkMhkmpi+my542oZgPbPWGK5CoNsTA/KpNjDehFg==
+"@unrest/vue@^0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@unrest/vue/-/vue-0.1.5.tgz#9f12515f3fbefeaff6181b4eb72b4ad416ee54db"
+  integrity sha512-3gFj2TIAmSLtjf6RQf8Ttiyct2X3R+dCwfvJdICmb9X3372Z1nk1+wlFNdWq0C88Q4z6hNJdyWKccVNdP+1r5g==
   dependencies:
     "@unrest/vue-reactive-storage" "^0.0.1"
     dedent "^0.7.0"
