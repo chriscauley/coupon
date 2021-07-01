@@ -11,7 +11,7 @@ import router from './router'
 import store from './store'
 import './styles/base.scss'
 
-auth.config.oauth_providers = ['github']
+auth.config.oauth_providers = ['github', 'google-oauth2']
 
 createApp(App)
   .component('Markdown', Markdown)

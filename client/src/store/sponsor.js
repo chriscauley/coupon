@@ -7,7 +7,7 @@ const fromServer = (sponsor) => {
   sponsor.internal_url = `/sponsor/${id}/${kebabCase(name)}/`
   sponsor.sponsor_channels?.forEach((sc) => {
     sc.short_url = sc.url
-      .replace(/https?:\/\//, '')
+      .replace(/^https?:\/\//i, '')
       .replace(/^www\./i, '')
       .toLowerCase()
     sc.video.age = formatDistanceToNowStrict(new Date(sc.video.created))
