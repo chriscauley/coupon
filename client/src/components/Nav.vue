@@ -1,7 +1,7 @@
 <template>
   <header :class="css.nav.outer()">
     <section :class="css.nav.section('left')">
-      <router-link to="/" :class="css.nav.brand()">Coupon</router-link>
+      <router-link to="/" :class="css.nav.brand()">Promotheus</router-link>
     </section>
     <section :class="css.nav.section('flex items-center')">
       <div :class="tabClass(tab)" v-for="tab in tabs" :key="tab[0]">
