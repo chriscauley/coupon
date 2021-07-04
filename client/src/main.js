@@ -1,7 +1,6 @@
-import Markdown from 'vue3-markdown-it'
 import auth from '@unrest/vue-auth'
 import UrVue from '@unrest/vue'
-import form from '@unrest/form'
+import form from '@unrest/vue-form'
 import '@unrest/tailwind/dist.css'
 
 import AddChannel from '@/components/AddChannel'
@@ -14,7 +13,6 @@ import './styles/base.scss'
 auth.config.oauth_providers = ['github', 'google-oauth2']
 
 createApp(App)
-  .component('Markdown', Markdown)
   .component('AddChannel', AddChannel)
   .use(router)
   .use(form.plugin)

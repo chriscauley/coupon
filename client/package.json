@@ -11,19 +11,19 @@
   "dependencies": {
     "@popperjs/core": "^2.9.2",
     "@unrest/css": "^0.0.7",
-    "@unrest/form": "^0.0.7",
     "@unrest/tailwind": "^0.0.11",
-    "@unrest/vue": "^0.1.5",
-    "@unrest/vue-auth": "^0.0.4",
-    "@unrest/vue-reactive-storage": "^0.0.3",
+    "@unrest/vue": "^0.1.6",
+    "@unrest/vue-auth": "^0.0.5",
+    "@unrest/vue-form": "^0.0.1",
+    "@unrest/vue-storage": "^0.0.1",
     "@vue/cli": "^4.5.13",
     "classnames": "^2.3.1",
     "core-js": "^3.6.5",
     "date-fns": "^2.22.1",
     "prettier": "^2.3.1",
     "vue": "^3.0.5",
-    "vue-router": "^4",
-    "vue3-markdown-it": "^1.0.8"
+    "vue-cli-plugin-webpack-bundle-analyzer": "^4.0.0",
+    "vue-router": "^4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { getClient } from '@unrest/vue-reactive-storage'
+import { getClient } from '@unrest/vue-storage'
 import querystring from 'querystring'
 
 const client = getClient()

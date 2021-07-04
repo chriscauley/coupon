@@ -1,4 +1,4 @@
-import { RestStorage } from '@unrest/vue-reactive-storage'
+import { RestStorage } from '@unrest/vue-storage'
 import { kebabCase } from 'lodash'
 
 const fromServer = (data) => {

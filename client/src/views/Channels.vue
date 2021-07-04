@@ -23,7 +23,11 @@
                     <img :src="promo.sponsor.image_url" v-if="promo.sponsor" class="w-8 mr-2" />
                     <div class="flex-grow">{{ promo.sponsor.name }}</div>
                   </a>
-                  <markdown :source="promo.paragraph" :linkify="true" class="p-4 pb-0 markdown" />
+                  <unrest-markdown
+                    :source="promo.paragraph"
+                    :linkify="true"
+                    class="p-4 pb-0 markdown"
+                  />
                 </div>
               </template>
             </unrest-dropdown>
